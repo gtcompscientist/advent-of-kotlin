@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>Indentation:co.csadev.adventOfCode.AdventOfCodeStartupTest.kt:150</ID>
+    <ID>Indentation:co.csadev.adventOfCode.AdventOfCodeStartupTest.kt:97</ID>
+    <ID>MaximumLineLength:co.csadev.advent2021.Day08.kt:64</ID>
+    <ID>MaximumLineLength:co.csadev.advent2021.Day08.kt:67</ID>
+    <ID>MaximumLineLength:co.csadev.advent2021.Day08.kt:70</ID>
+    <ID>MaximumLineLength:co.csadev.advent2021.Day08.kt:73</ID>
+    <ID>MaximumLineLength:co.csadev.advent2021.Day08.kt:76</ID>
+    <ID>MaximumLineLength:co.csadev.advent2021.Day08.kt:79</ID>
+    <ID>MaximumLineLength:co.csadev.advent2021.Day08.kt:82</ID>
+    <ID>MaximumLineLength:co.csadev.advent2021.Day08.kt:85</ID>
+  </CurrentIssues>
+</SmellBaseline>
