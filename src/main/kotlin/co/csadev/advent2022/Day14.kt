@@ -13,7 +13,6 @@ import co.csadev.adventOfCode.Resources.resourceAsList
 import co.csadev.adventOfCode.deepCopy
 import kotlin.math.max
 
-
 class Day14(override val input: List<String> = resourceAsList("22day14.txt")) :
     BaseDay<List<String>, Int, Int> {
 
@@ -28,7 +27,6 @@ class Day14(override val input: List<String> = resourceAsList("22day14.txt")) :
 
     override fun solvePart2() =
         cave.deepCopy().apply { addPath("0," + (maxY + 2) + " -> 999," + (maxY + 2)) }.solve()
-
 
     fun MutableList<MutableList<Boolean>>.solve() =
         generateSequence { addSand(maxY) }.takeWhile { it }.toList().count()
@@ -47,6 +45,7 @@ class Day14(override val input: List<String> = resourceAsList("22day14.txt")) :
         }
     }
 
+    @Suppress("ReturnCount")
     private fun MutableList<MutableList<Boolean>>.addSand(maxY: Int): Boolean {
         var x = 500
         var y = 0
