@@ -16,28 +16,16 @@ class Day13(override val input: String = resourceAsText("22day13.txt")) :
 
     private val packets = input.split("\n\n").map { it.lines().map { l -> Packet(l) } }
 
-    override fun solvePart1(): Int {
-        var count = 0
-        packets.forEachIndexed { index, packets ->
-            if (packets.first() > packets.last()) {
-                count += index + 1
-            }
-        }
-        return count
-    }
+    override fun solvePart1() =
+        packets.indices.filter { packets[it].run { first() > last() } }.sumOf { it + 1 }
 
+    private val newPackets = listOf("[[2]]", "[[6]]")
     override fun solvePart2(): Int {
-        var decoderKey = 1
         val mPackets = packets.flatten().toMutableList().apply {
-            add(Packet("[[2]]"))
-            add(Packet("[[6]]"))
-            sort()
-            reverse()
-        }
-        mPackets.forEachIndexed { index, packet ->
-            if (packet.str == "[[2]]" || packet.str == "[[6]]") decoderKey *= index + 1
-        }
-        return decoderKey
+            addAll(newPackets.map { Packet(it) })
+        }.sorted().reversed()
+        return mPackets.indices.filter { newPackets.contains(mPackets[it].str) }
+            .fold(1) { acc, p -> acc * (p + 1) }
     }
 }
 
@@ -57,7 +45,7 @@ class Packet(val str: String) : Comparable<Packet> {
             packet = packet.substring(1, packet.length - 1)
             var depth = 0
             var curr = ""
-            for (c in packet.toCharArray()) {
+            for (c in packet) {
                 if (c == ',' && depth == 0) {
                     children.add(Packet(curr))
                     curr = ""
