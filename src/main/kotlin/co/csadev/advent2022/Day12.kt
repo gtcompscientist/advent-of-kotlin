@@ -56,7 +56,8 @@ class Day12(override val input: List<String> = resourceAsList("22day12.txt")) :
         }
     }
 
-    private fun plotCourse(s: Point2D, end: Point2D) = topo.shortestPath(s, end, visualize = this::visualize ){ current, next ->
-        next in topo.keys && (topo[next]!! <= topo[current]!! + 1)
-    }?.size
+    private fun plotCourse(s: Point2D, end: Point2D) =
+        topo.shortestPath(s, end, visualize = this::visualize) { current, next ->
+            next in topo.keys && (topo[next]!! <= topo[current]!! + 1)
+        }?.size
 }

@@ -10,8 +10,7 @@ import com.sksamuel.scrimage.nio.StreamingGifWriter.GifStream
 import java.awt.image.BufferedImage
 import java.io.File
 import java.time.Duration
-import java.util.*
-
+import java.util.SortedMap
 
 private var writeCount = 0
 
@@ -47,7 +46,7 @@ fun GifStream.visualizeFrame(imageMap: SortedMap<Point2D, Color>): Unit = Immuta
     imageMap.map { it.key.toPixel(it.value.toRGB().toARGBInt()) }.toTypedArray()
 ).run {
     writeCount++
-    //output(PngWriter.NoCompression, "./visualization_frame_$writeCount.png")
+    // output(PngWriter.NoCompression, "./visualization_frame_$writeCount.png")
     println("Visualizing Frame: $writeCount")
     writeFrame(this)
 }
@@ -62,7 +61,7 @@ fun <T> Map<Point2D, T>.getCurrentState(
         (1..expandBy).flatMap { y ->
             (1..expandBy).map { x ->
                 val point = Point2D((p.x * expandBy) + x - 1, (p.y * expandBy) + y - 1)
-                //println("Expand point: $p -> $point")
+                // println("Expand point: $p -> $point")
                 point to c
             }
         }
@@ -117,5 +116,4 @@ enum class GradientNames {
 fun colorShades(count: Int, base: GradientNames = GradientNames.ALGAE): List<Color> =
     ImmutableImageLoader.create().fromFile(Resources.resourceAsFile("GradiantsAll.webp")).run {
         base.getRange(count).map { color(it.x, it.y) }
-
     }

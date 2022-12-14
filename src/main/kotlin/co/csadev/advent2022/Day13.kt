@@ -11,7 +11,6 @@ package co.csadev.advent2022
 import co.csadev.adventOfCode.BaseDay
 import co.csadev.adventOfCode.Resources.resourceAsText
 
-
 class Day13(override val input: String = resourceAsText("22day13.txt")) :
     BaseDay<String, Int, Int> {
 
@@ -75,20 +74,21 @@ class Packet(val str: String) : Comparable<Packet> {
     }
 
     override fun compareTo(other: Packet): Int {
-        if (integer && other.integer) {
+        return if (integer && other.integer) {
             return other.value - value
-        }
-        if (!integer && !other.integer) {
-            for (i in 0 until children.size.coerceAtMost(other.children.size)) {
-                val value = children[i].compareTo(other.children[i])
+        } else if (!integer && !other.integer) {
+            (0 until children.size.coerceAtMost(other.children.size)).mapNotNull {
+                val value = children[it].compareTo(other.children[it])
                 if (value != 0) {
-                    return value
+                    value
+                } else {
+                    null
                 }
-            }
-            return other.children.size - children.size
+            }.firstOrNull() ?: (other.children.size - children.size)
+        } else {
+            val lst1 = if (integer) Packet("[$value]") else this
+            val lst2 = if (other.integer) Packet("[" + other.value + "]") else other
+            lst1.compareTo(lst2)
         }
-        val lst1 = if (integer) Packet("[$value]") else this
-        val lst2 = if (other.integer) Packet("[" + other.value + "]") else other
-        return lst1.compareTo(lst2)
     }
 }
