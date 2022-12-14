@@ -11,7 +11,10 @@ package co.csadev.advent2022
 import co.csadev.adventOfCode.BaseDay
 import co.csadev.adventOfCode.Point2D
 import co.csadev.adventOfCode.Resources.resourceAsList
+import co.csadev.adventOfCode.colorShades
 import co.csadev.adventOfCode.shortestPath
+import com.sksamuel.scrimage.color.Color
+import com.sksamuel.scrimage.color.RGBColor
 
 class Day12(override val input: List<String> = resourceAsList("22day12.txt")) :
     BaseDay<List<String>, Int, Int> {
@@ -42,7 +45,18 @@ class Day12(override val input: List<String> = resourceAsList("22day12.txt")) :
         .mapNotNull { k -> plotCourse(k, end) }
         .minOf { it }
 
-    private fun plotCourse(s: Point2D, end: Point2D) = shortestPath(s, end) { current, next ->
+    private val colors by lazy { colorShades(26) }
+
+    @Suppress("unused") // Only turn on when you want to massively slow things down
+    private fun visualize(p: Point2D, best: List<Point2D>, queue: List<Point2D>): Color {
+        return when (p) {
+            in best -> RGBColor(255, 255, 0)
+            in queue -> RGBColor(179, 0, 255)
+            else -> colors[topo[p]!! - 'a']
+        }
+    }
+
+    private fun plotCourse(s: Point2D, end: Point2D) = topo.shortestPath(s, end, visualize = this::visualize ){ current, next ->
         next in topo.keys && (topo[next]!! <= topo[current]!! + 1)
     }?.size
 }

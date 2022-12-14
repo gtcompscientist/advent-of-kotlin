@@ -12,6 +12,9 @@ repositories {
 
 dependencies {
     implementation("com.github.shiguruikai:combinatoricskt:1.6.0")
+    implementation("com.sksamuel.scrimage:scrimage-core:4.0.32")
+    implementation("com.sksamuel.scrimage:scrimage-webp:4.0.32")
+    implementation("com.sksamuel.scrimage:scrimage-formats-extra:4.0.32")
     testApi("org.junit.jupiter:junit-jupiter-engine:5.7.0")
     testImplementation("org.assertj:assertj-core:3.18.1")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")

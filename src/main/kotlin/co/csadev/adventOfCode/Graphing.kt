@@ -4,6 +4,7 @@
 
 package co.csadev.adventOfCode
 
+import com.sksamuel.scrimage.pixels.Pixel
 import kotlin.math.absoluteValue
 
 data class Point2D(val x: Int, val y: Int) : Point, Comparable<Point2D> {
@@ -50,6 +51,11 @@ data class Point2D(val x: Int, val y: Int) : Point, Comparable<Point2D> {
             }
         }
     }
+
+    /**
+     * Outputs an image of this pixel with the given color for visualizations
+     */
+    fun toPixel(argb: Int) = Pixel(x, y, argb)
 
     companion object {
         val ORIGIN = Point2D(0, 0)

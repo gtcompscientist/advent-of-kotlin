@@ -12,10 +12,10 @@ internal object Resources {
         resourceAsList(fileName).reduce { a, b -> "$a$delimiter$b" }
 
     fun resourceAsText(fileName: String): String =
-        File(fileName.toURI()).readText()
+        resourceAsFile(fileName).readText()
 
     fun resourceAsList(fileName: String): List<String> =
-        File(fileName.toURI()).readLines()
+        resourceAsFile(fileName).readLines()
 
     fun resourceAsListOfInt(fileName: String): List<Int> =
         resourceAsList(fileName).map { it.toInt() }
@@ -25,6 +25,8 @@ internal object Resources {
 
     fun resourceAsListOfLong(fileName: String): List<Long> =
         resourceAsList(fileName).map { it.toLong() }
+
+    fun resourceAsFile(fileName: String): File = File(fileName.toURI())
 
     private fun String.toURI(): URI =
         Resources.javaClass.classLoader.getResource(this)?.toURI() ?: throw IllegalArgumentException(

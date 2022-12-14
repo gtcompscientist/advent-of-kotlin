@@ -4,8 +4,8 @@
 
 package co.csadev.adventOfCode
 
-import java.util.InputMismatchException
-import java.util.LinkedList
+import com.sksamuel.scrimage.color.Color
+import java.util.*
 
 /**
  * Creates a path from an end point going through parent nodes back to the beginning
@@ -24,12 +24,14 @@ fun Map<Point2D, Point2D>.pathThroughList(end: Point2D): List<Point2D> {
  * Maps the shortest path from [start] to [end]
  * Optionally can use [includeDiagonal]
  */
-fun shortestPath(
+fun <T> Map<Point2D, T>.shortestPath(
     start: Point2D,
     end: Point2D,
     includeDiagonal: Boolean = false,
+    visualize: ((current: Point2D, best: List<Point2D>, queue: List<Point2D>) -> Color)? = null,
     validator: (current: Point2D, next: Point2D) -> Boolean
 ): List<Point2D>? {
+    val visualization = if (visualize != null) createVisualization() else null
     val best = mutableMapOf<Point2D, Int>()
     val tracking = mutableMapOf<Point2D, Point2D>()
     val queue = LinkedList<Point2D>()
@@ -38,7 +40,12 @@ fun shortestPath(
     while (queue.size > 0) {
         val cur: Point2D = queue.poll()
         if (cur == end) {
-            return tracking.pathThroughList(cur)
+            return tracking.pathThroughList(cur).also {
+                visualization?.visualizeFrame(
+                    getCurrentState(it, visualize = visualize!!)
+                )
+                visualization?.finalizeVisualization()
+            }
         }
         for (c in (if (includeDiagonal) cur.neighbors else cur.adjacent)) {
             // skip if outside bounds or if height is more than one above current
@@ -50,6 +57,13 @@ fun shortestPath(
                 queue.add(c)
             }
         }
+        visualization?.visualizeFrame(
+            getCurrentState(
+                tracking.pathThroughList(cur),
+                queue,
+                visualize!!
+            )
+        )
     }
     return null
 }
