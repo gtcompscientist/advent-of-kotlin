@@ -4,7 +4,7 @@
 
 package co.csadev.adventOfCode
 
-import java.util.SortedMap
+import java.util.*
 
 /**
  * Multiplication of an iterable list of Longs
@@ -74,3 +74,8 @@ fun Iterable<Point2D>.printArea(
         println()
     }
 }
+
+/**
+ * Creates a deep copy of a nested list
+ */
+fun <T> MutableList<MutableList<T>>.deepCopy() = map { it.toMutableList() }.toMutableList()

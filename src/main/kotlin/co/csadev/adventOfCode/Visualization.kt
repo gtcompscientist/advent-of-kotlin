@@ -10,7 +10,8 @@ import com.sksamuel.scrimage.nio.StreamingGifWriter.GifStream
 import java.awt.image.BufferedImage
 import java.io.File
 import java.time.Duration
-import java.util.SortedMap
+import java.util.*
+import kotlin.system.measureTimeMillis
 
 private var writeCount = 0
 
@@ -117,3 +118,15 @@ fun colorShades(count: Int, base: GradientNames = GradientNames.ALGAE): List<Col
     ImmutableImageLoader.create().fromFile(Resources.resourceAsFile("GradiantsAll.webp")).run {
         base.getRange(count).map { color(it.x, it.y) }
     }
+
+/**
+ * Uses [measureTimeMillis] to measure the execution time,
+ *   but returns the block result instead of the time
+ */
+fun <T> measureAndPrint(log: String, block: () -> T): T {
+    val output: T
+    measureTimeMillis {
+        output = block()
+    }.let { println("$log in $it") }
+    return output
+}
