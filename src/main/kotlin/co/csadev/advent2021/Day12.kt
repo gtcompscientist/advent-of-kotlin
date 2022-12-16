@@ -1,9 +1,6 @@
-/*
- * Copyright (c) 2021 by Charles Anderson
- */
-
 /**
- * Advent of Code 2021, Day 12
+ * Copyright (c) 2021 by Charles Anderson
+ *  * Advent of Code 2021, Day 12
  * Problem Description: http://adventofcode.com/2021/day/12
  */
 package co.csadev.advent2021

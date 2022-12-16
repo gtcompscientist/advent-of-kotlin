@@ -1,8 +1,5 @@
-/*
- * Copyright (c) 2021 by Charles Anderson
- */
-
 /**
+ * Copyright (c) 2021 by Charles Anderson
  * Advent of Code 2021, Day 10
  * Problem Description: http://adventofcode.com/2021/day/10
  */

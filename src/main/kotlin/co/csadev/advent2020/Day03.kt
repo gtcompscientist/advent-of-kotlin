@@ -1,8 +1,5 @@
-/*
- * Copyright (c) 2021 by Charles Anderson
- */
-
 /**
+ * Copyright (c) 2021 by Charles Anderson
  * Advent of Code 2020, Day 3
  * Problem Description: http://adventofcode.com/2020/day/3
  */

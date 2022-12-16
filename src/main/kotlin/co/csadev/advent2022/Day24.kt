@@ -1,8 +1,5 @@
-/*
- * Copyright (c) 2022 by Charles Anderson
- */
-
 /**
+ * Copyright (c) 2022 by Charles Anderson
  * Advent of Code 2022, Day 24
  * Problem Description: http://adventofcode.com/2021/day/24
  */
