@@ -36,7 +36,7 @@ class Day16(override val input: List<String> = resourceAsList("22day16.txt")) :
         seen.clear()
         max = 0
 
-        findPath(1, "AA", listOf(0))
+        listOf(0).findPath(1, "AA")
         return max
     }
 
@@ -45,67 +45,47 @@ class Day16(override val input: List<String> = resourceAsList("22day16.txt")) :
         max = 0
         maxTime = 26
 
-        findPath(1, "AA", listOf(0), "AA")
+        listOf(0).findPath(1, "AA", "AA")
         return max
     }
 
     private val currFlow: Int
         get() = open.filter { it.value }.mapNotNull { flows[it.key] }.sum()
 
-    private fun findPath(time: Int, position: String, flow: List<Int>, position2: String? = null) {
-        val key = "$time$position$position2"
-        val currSum = flow.sum()
-        if ((seen[key] ?: Int.MIN_VALUE) >= currSum) {
+    private fun List<Int>.findPath(time: Int, pos: String, pos2: String? = null) {
+        val key = "$time$pos$pos2"
+        val currSum = sum()
+        if (seen.getOrDefault(key, -1) >= currSum) {
             return
         }
         seen[key] = currSum
         if (time == maxTime) {
             max = max(max, currSum)
-            return
+        } else if (open.all { it.value }) {
+            (this + currFlow).findPath(time + 1, pos, pos2)
+        } else {
+            searchPath(time, pos, pos2)
         }
-
-        if (open.all { it.value }) {
-            findPath(time + 1, position, flow + currFlow, position2)
-        }
-
-        // Open valve?
-        position.searchPath(time, flow, position2)
     }
 
-    private fun String.searchPath(time: Int, flow: List<Int>, other: String?) {
-        for (offset in 0..1) {
-            if (offset == 0) {
-                if (open[this]!! || flows[this]!! <= 0) {
-                    continue
-                }
-                open[this] = true
-                other?.findSecondaryPath(time, this, flow) ?: findPath(time + 1, this, flow + currFlow)
-                open[this] = false
-            } else {
-                val currentFlow = currFlow
-                valves[this]?.forEach { p ->
-                    other?.findSecondaryPath(time, p, flow) ?: findPath(time + 1, p, flow + currentFlow)
-                }
-            }
+    private fun List<Int>.searchPath(time: Int, pos: String, pos2: String?, first: Boolean = true) {
+        val opening = if (!first && pos2 != null) pos2 else pos
+        if (open[opening] != true && flows.getOrDefault(opening, 0) > 0) {
+            open[opening] = true
+            addDepth(currFlow, pos, pos2, time, first)
+            open[opening] = false
         }
-
+        val currentFlow = currFlow
+        valves[opening]?.forEach { p ->
+            addDepth(currentFlow, if (first) p else pos, if (first) pos2 else p, time, first)
+        }
     }
 
-    private fun String.findSecondaryPath(time: Int, position: String, flow: List<Int>) {
-        for (offset in 0..1) {
-            if (offset == 0) {
-                if (open[this]!! || flows[this]!! <= 0) {
-                    continue
-                }
-                open[this] = true
-                findPath(time + 1, position, flow + currFlow, this)
-                open[this] = false
-            } else {
-                val currentFlow = currFlow
-                valves[this]?.forEach { p ->
-                    findPath(time + 1, position, flow + currentFlow, p)
-                }
-            }
+    private fun List<Int>.addDepth(startFlow: Int, pos1: String, pos2: String?, time: Int, first: Boolean) {
+        if (pos2 != null && first) {
+            searchPath(time, pos1, pos2, false)
+        } else {
+            (this + startFlow).findPath(time + 1, pos1, if (first) null else pos2)
         }
     }
 }
