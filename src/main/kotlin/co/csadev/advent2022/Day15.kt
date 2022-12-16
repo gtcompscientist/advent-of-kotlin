@@ -57,6 +57,7 @@ class Day15(override val input: List<String> = resourceAsList("22day15.txt")) :
 
     private val explore = listOf(Point2D(1, 1), Point2D(-1, 1), Point2D(-1, -1), Point2D(1, -1))
 
+    @Suppress("unused")
     private fun scanOuter(s: Point2D, dist: Int): Long? {
         var cur = s + Point2D(0, -dist - 1)
         for (p in explore) for (step in 0..dist) {
