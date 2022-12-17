@@ -12,11 +12,16 @@ import kotlin.math.max
 class Day16(override val input: List<String> = resourceAsList("22day16.txt")) :
     BaseDay<List<String>, Int, Int> {
 
-    private val flows = mutableMapOf<String, Int>()
-    private val valves = mutableMapOf<String, List<String>>()
-    private val open = mutableMapOf<String, Boolean>()
+    private val flowArr: Array<Int>
+    private val valveArr: Array<List<Int>>
+    private val openArr: Array<Boolean>
+    private val aaIdx: Int
 
     init {
+        val flows = mutableMapOf<String, Int>()
+        val valves = mutableMapOf<String, List<String>>()
+        val open = mutableMapOf<String, Boolean>()
+
         @Suppress("DestructuringDeclarationWithTooManyEntries")
         input.map {
             val (v, t) = it.split("; ")
@@ -26,17 +31,22 @@ class Day16(override val input: List<String> = resourceAsList("22day16.txt")) :
             valves[name] = currV
             open[name] = false
         }
+        val nameMap = flows.keys.sorted().mapIndexed { index, s ->
+            s to index
+        }.toMap()
+        aaIdx = nameMap["AA"]!!
+        flowArr = flows.keys.sortedBy { nameMap[it]!! }.map { flows[it]!! }.toTypedArray()
+        valveArr = valves.keys.sortedBy { nameMap[it]!! }.map { valves[it]!!.map { l -> nameMap[l]!! } }.toTypedArray()
+        openArr = open.keys.sortedBy { nameMap[it]!! }.map { open[it]!! }.toTypedArray()
     }
+
 
     private val seen = mutableMapOf<String, Int>()
     private var max = 0
     private var maxTime = 30
 
     override fun solvePart1(): Int {
-        seen.clear()
-        max = 0
-
-        listOf(0).findPath(1, "AA")
+        listOf(0).findPath(1, arrayOf(aaIdx))
         return max
     }
 
@@ -44,16 +54,15 @@ class Day16(override val input: List<String> = resourceAsList("22day16.txt")) :
         seen.clear()
         max = 0
         maxTime = 26
-
-        listOf(0).findPath(1, "AA", "AA")
+        listOf(0).findPath(1, arrayOf(aaIdx, aaIdx))
         return max
     }
 
     private val currFlow: Int
-        get() = open.filter { it.value }.mapNotNull { flows[it.key] }.sum()
+        get() = openArr.mapIndexed { index, b -> if (b) flowArr[index] else 0 }.sum()
 
-    private fun List<Int>.findPath(time: Int, vararg pos: String) {
-        val key = "$time${pos.joinToString("")}"
+    private fun List<Int>.findPath(time: Int, pos: Array<Int>) {
+        val key = "$time${pos.contentDeepHashCode()}"
         val currSum = sum()
         if (seen.getOrDefault(key, -1) >= currSum) {
             return
@@ -61,33 +70,35 @@ class Day16(override val input: List<String> = resourceAsList("22day16.txt")) :
         seen[key] = currSum
         if (time == maxTime) {
             max = max(max, currSum)
-        } else if (open.all { it.value }) {
-            (this + currFlow).findPath(time + 1, *pos)
+        } else if (openArr.all { it }) {
+            (this + currFlow).findPath(time + 1, pos)
         } else {
-            searchPath(time, 0, *pos)
+            searchPath(time, 0, pos)
         }
     }
 
-    private fun List<Int>.searchPath(time: Int, offset: Int, vararg pos: String) {
+    private fun List<Int>.searchPath(time: Int, offset: Int, pos: Array<Int>) {
         val opening = pos.getOrNull(offset) ?: return
-        if (open[opening] != true && flows.getOrDefault(opening, 0) > 0) {
-            open[opening] = true
-            addDepth(currFlow, time, offset + 1, *pos)
-            open[opening] = false
+        if (!openArr[opening] && flowArr[opening] > 0) {
+            openArr[opening] = true
+            addDepth(currFlow, time, offset + 1, pos)
+            openArr[opening] = false
         }
         val currentFlow = currFlow
-        valves[opening]?.forEach { p ->
-            val subSearch = pos.toMutableList().apply { this[offset] = p }
-            addDepth(currentFlow, time, offset + 1, *subSearch.toTypedArray())
+        valveArr[opening].forEach { p ->
+            val temp = pos[offset]
+            pos[offset] = p
+            addDepth(currentFlow, time, offset + 1, pos)
+            pos[offset] = temp
         }
     }
 
-    private fun List<Int>.addDepth(startFlow: Int, time: Int, offset: Int, vararg pos: String) {
+    private fun List<Int>.addDepth(startFlow: Int, time: Int, offset: Int, pos: Array<Int>) {
         val pos2 = pos.getOrNull(offset)
         if (pos2 != null && offset > 0) {
-            searchPath(time, offset, *pos)
+            searchPath(time, offset, pos)
         } else {
-            (this + startFlow).findPath(time + 1, *pos)
+            (this + startFlow).findPath(time + 1, pos)
         }
     }
 }
