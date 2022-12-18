@@ -69,11 +69,12 @@ data class Point2D(val x: Int, val y: Int) : Point, Comparable<Point2D> {
     }
 }
 
-fun List<Point2D>.printGraph(activeChar: Char = '#', inactiveChar: Char = ' ') = (0..maxOf { it.y }).forEach { y ->
-    (0..maxOf { it.x }).fold("") { acc, x ->
-        acc + if (contains(Point2D(x, y))) activeChar else inactiveChar
-    }.let { println(it) }
-}
+fun List<Point2D>.printGraph(activeChar: Char = '#', inactiveChar: Char = ' ') =
+    (0..maxOf { it.y }).forEach { y ->
+        (0..maxOf { it.x }).fold("") { acc, x ->
+            acc + if (contains(Point2D(x, y))) activeChar else inactiveChar
+        }.let { println(it) }
+    }
 
 interface Point {
     val neighbors: List<Point>
@@ -88,6 +89,28 @@ data class Point3D(val x: Int, val y: Int, val z: Int) : Point {
                 }
             }
         }
+    }
+
+    val immediateNeighbors: List<Point3D> by lazy {
+        listOf(
+            copy(x = x - 1),
+            copy(x = x + 1),
+            copy(y = y - 1),
+            copy(y = y + 1),
+            copy(z = z - 1),
+            copy(z = z + 1)
+        )
+    }
+
+    val neighborsSequence: Sequence<Point3D> by lazy {
+        sequenceOf(
+            copy(x = x - 1),
+            copy(x = x + 1),
+            copy(y = y - 1),
+            copy(y = y + 1),
+            copy(z = z - 1),
+            copy(z = z + 1)
+        )
     }
 
     val hexNeighbors: List<Point3D> by lazy {
