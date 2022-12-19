@@ -16,11 +16,11 @@
 | 12  | --- Day 12: Hill Climbing Algorithm --- | [\[Solution\]](./Day12.kt) [\[AoC\]](http://adventofcode.com/2022/day/12) |
 | 13  | --- Day 13: Distress Signal ---         | [\[Solution\]](./Day13.kt) [\[AoC\]](http://adventofcode.com/2022/day/13) |
 | 14  | --- Day 14: Regolith Reservoir ---      | [\[Solution\]](./Day14.kt) [\[AoC\]](http://adventofcode.com/2022/day/14) |
-| 15  | TBD                                     | [\[Solution\]](./Day15.kt) [\[AoC\]](http://adventofcode.com/2022/day/15) |
-| 16  | TBD                                     | [\[Solution\]](./Day16.kt) [\[AoC\]](http://adventofcode.com/2022/day/16) |
-| 17  | TBD                                     | [\[Solution\]](./Day17.kt) [\[AoC\]](http://adventofcode.com/2022/day/17) |
-| 18  | TBD                                     | [\[Solution\]](./Day18.kt) [\[AoC\]](http://adventofcode.com/2022/day/18) |
-| 19  | TBD                                     | [\[Solution\]](./Day19.kt) [\[AoC\]](http://adventofcode.com/2022/day/19) |
+| 15  | --- Day 15: Beacon Exclusion Zone ---   | [\[Solution\]](./Day15.kt) [\[AoC\]](http://adventofcode.com/2022/day/15) |
+| 16  | --- Day 16: Proboscidea Volcanium ---   | [\[Solution\]](./Day16.kt) [\[AoC\]](http://adventofcode.com/2022/day/16) |
+| 17  | --- Day 17: Pyroclastic Flow ---        | [\[Solution\]](./Day17.kt) [\[AoC\]](http://adventofcode.com/2022/day/17) |
+| 18  | --- Day 18: Boiling Boulders ---        | [\[Solution\]](./Day18.kt) [\[AoC\]](http://adventofcode.com/2022/day/18) |
+| 19  | --- Day 19: Not Enough Minerals ---     | [\[Solution\]](./Day19.kt) [\[AoC\]](http://adventofcode.com/2022/day/19) |
 | 20  | TBD                                     | [\[Solution\]](./Day20.kt) [\[AoC\]](http://adventofcode.com/2022/day/20) |
 | 21  | TBD                                     | [\[Solution\]](./Day21.kt) [\[AoC\]](http://adventofcode.com/2022/day/21) |
 | 22  | TBD                                     | [\[Solution\]](./Day22.kt) [\[AoC\]](http://adventofcode.com/2022/day/22) |
