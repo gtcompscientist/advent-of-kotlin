@@ -40,7 +40,6 @@ class Day16(override val input: List<String> = resourceAsList("22day16.txt")) :
         openArr = open.keys.sortedBy { nameMap[it]!! }.map { open[it]!! }.toTypedArray()
     }
 
-
     private val seen = mutableMapOf<String, Int>()
     private var max = 0
     private var maxTime = 30

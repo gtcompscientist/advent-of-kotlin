@@ -7,7 +7,6 @@ package co.csadev.advent2022
 
 import co.csadev.adventOfCode.BaseDay
 import co.csadev.adventOfCode.Resources.resourceAsList
-import co.csadev.adventOfCode.copyApply
 import co.csadev.adventOfCode.product
 import kotlin.math.max
 
@@ -34,6 +33,7 @@ class Day19(override val input: List<String> = resourceAsList("22day19.txt")) :
         return costs.take(3).map { it.runSim(32, 1, 0, 0, 0, 0, 0, 0, 0) }.product()
     }
 
+    @Suppress("LongParameterList") // 80% runtime reduction in using [Int]s over [List]s
     private fun Cost.runSim(time: Int, bOre: Int, bClay: Int, bOb: Int, bGeo: Int, rOre: Int, rClay: Int, rOb: Int, rGeo: Int): Int {
         val (nOre, nClay, nOb, nGeo) = listOf(rOre + bOre, rClay + bClay, rOb + bOb, rGeo + bGeo)
         val nextTime = time - 1

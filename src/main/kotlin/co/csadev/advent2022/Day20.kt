@@ -11,7 +11,11 @@ import co.csadev.adventOfCode.Resources.resourceAsList
 class Day20(override val input: List<String> = resourceAsList("22day20.txt")) :
     BaseDay<List<String>, Int, Int> {
 
-    override fun solvePart1() = 0
+    override fun solvePart1(): Int {
+        return 0
+    }
 
-    override fun solvePart2() = 0
+    override fun solvePart2(): Int {
+        return 0
+    }
 }
