@@ -12,6 +12,8 @@ repositories {
 
 dependencies {
     implementation("com.github.shiguruikai:combinatoricskt:1.6.0")
+    implementation("net.lingala.zip4j:zip4j:2.11.2")
+    implementation("com.google.code.gson:gson:2.10")
     implementation("com.sksamuel.scrimage:scrimage-core:4.0.32")
     implementation("com.sksamuel.scrimage:scrimage-webp:4.0.32")
     implementation("com.sksamuel.scrimage:scrimage-formats-extra:4.0.32")
