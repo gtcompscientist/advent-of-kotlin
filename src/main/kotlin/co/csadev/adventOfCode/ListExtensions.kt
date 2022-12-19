@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions")
+
 /*
  * Copyright (c) 2021 by Charles Anderson
  */
@@ -79,3 +81,7 @@ fun Iterable<Point2D>.printArea(
  * Creates a deep copy of a nested list
  */
 fun <T> MutableList<MutableList<T>>.deepCopy() = map { it.toMutableList() }.toMutableList()
+
+fun <T> List<T>.copyApply(block: MutableList<T>.() -> Unit): MutableList<T> {
+    return toMutableList().apply { block() }
+}
