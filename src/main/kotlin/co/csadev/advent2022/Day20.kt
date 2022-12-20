@@ -7,6 +7,7 @@ package co.csadev.advent2022
 
 import co.csadev.adventOfCode.BaseDay
 import co.csadev.adventOfCode.Resources.resourceAsList
+import co.csadev.adventOfCode.circular
 
 class Day20(override val input: List<String> = resourceAsList("22day20.txt")) :
     BaseDay<List<String>, Long, Long> {
@@ -19,15 +20,9 @@ class Day20(override val input: List<String> = resourceAsList("22day20.txt")) :
 
     private fun mix(decryptKey: Int = 1, mix: Int = 1): Long {
         val base = input.mapIndexed { index, i -> index to i.toLong() * decryptKey }
-        val mixing = base.toMutableList()
+        val mixing = base.toMutableList().circular()
         repeat(mix) {
-            base.forEach { p ->
-                val index = mixing.indexOf(p)
-                mixing.removeAt(index)
-                // Order matters here, must calculate the new index after removal
-                val newIndex = (index + p.second).mod(mixing.size)
-                mixing.add(newIndex, p)
-            }
+            base.forEach { p -> mixing.move(mixing.indexOf(p), p.second) }
         }
         val output = mixing.map { it.second }
         val zero = output.indexOf(0L)
