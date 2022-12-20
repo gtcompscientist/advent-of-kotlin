@@ -34,11 +34,7 @@ class Day02(override val input: String = Resources.resourceAsText("22day02.txt")
         }
     }
 
-    val scoreDict = listOf(
-        ""
-    )
-
-    val strategy = input.lines().map { it.split(" ") }
+    private val strategy = input.lines().map { it.split(" ") }
 
     override fun solvePart1() = strategy.sumOf { RPS.score(it[0], it[1]) }
 

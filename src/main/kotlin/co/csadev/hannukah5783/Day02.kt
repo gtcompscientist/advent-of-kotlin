@@ -23,7 +23,8 @@ class Day02(override val input: String = "") :
             .filter { it.customerid in jdIds }
             .filter { it.items.any { item -> item.sku in bagels } }
             .map { it.customerid }.toList()
-        return jdCustomers.first { it.customerid in jd2017BagelCustomers }.phone
+        val customer = jdCustomers.first { it.customerid in jd2017BagelCustomers }
+        return customer.phone
     }
 
     override fun solvePart2() = 0

@@ -4,6 +4,7 @@ package co.csadev.hannukah5783
 
 import co.csadev.adventOfCode.Resources
 import com.google.gson.Gson
+import java.time.LocalDate
 
 internal val gson = Gson()
 
@@ -13,10 +14,10 @@ data class Customer(
     val address: String,
     val citystatezip: String,
     val birthdate: String,
-    val phone: String
+    val phone: String,
 ) {
-    fun lastName() = name.split(" ")
-        .run { if (size > 2) this[2] else this[1] }
+    fun lastName(): String = name.split(" ").run { if (size > 2) this[2] else this[1] }
+    fun birthday(): LocalDate = LocalDate.parse(birthdate)
 }
 
 data class Product(
