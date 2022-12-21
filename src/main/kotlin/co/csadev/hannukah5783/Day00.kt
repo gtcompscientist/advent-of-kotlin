@@ -10,7 +10,6 @@ import co.csadev.adventOfCode.BaseDay
 class Day00(override val input: String? = null) :
     BaseDay<String?, Int, Int> {
 
-
     override fun solvePart1(): Int {
         // No need to resolve this every time
         return 5777

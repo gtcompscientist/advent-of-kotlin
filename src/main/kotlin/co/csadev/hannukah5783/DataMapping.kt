@@ -1,4 +1,4 @@
-@file:Suppress("SpellCheckingInspection")
+@file:Suppress("SpellCheckingInspection", "ConstructorParameterNaming")
 
 package co.csadev.hannukah5783
 
