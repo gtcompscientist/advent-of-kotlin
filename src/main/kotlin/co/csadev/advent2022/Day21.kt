@@ -17,14 +17,18 @@ class Day21(override val input: List<String> = resourceAsList("22day21.txt")) :
         private const val HUMAN = "humn"
     }
 
-    private data class Monkey(var name: String, var yell: Long?, val wait1: String?, var operator: Operator?, val wait2: String?)
+    private data class Monkey(var name: String, var yell: Long?, val wait1: String?, var operator: Operator?, val wait2: String?) {
+        fun contains(name: String) = wait1 == name || wait2 == name
+    }
 
     private enum class Operator(val op: String, val compute: (Long, Long) -> Long, val solve: (Long, Long, Int) -> Long) {
         Plus("+", { l, r -> l + r }, { curr, l, _ -> curr - l }),
         Minus("-", { l, r -> l - r }, { curr, l, idx -> if (idx == 2) (l + curr) else (l - curr) }),
         Mult("*", { l, r -> l * r }, { curr, l, _ -> curr / l }),
         Div("/", { l, r -> l / r }, { curr, l, idx -> if (idx == 2) (l * curr) else (l / curr) }),
-        Equal("=", { l, r -> abs(l - r) }, { curr, l, _ -> curr + l })
+        Equal("=", { l, r -> abs(l - r) }, { curr, l, _ -> curr + l });
+
+        override fun toString() = op
     }
 
     private fun List<String>.asMonkey(): Monkey =
@@ -32,66 +36,44 @@ class Day21(override val input: List<String> = resourceAsList("22day21.txt")) :
 
     private fun String.toOperator() = Operator.values().firstOrNull { it.op == this }
 
-    private class MonkeyYell(ex: Exception? = null, var monkeys: MutableList<Monkey> = mutableListOf()) :
-        Exception("Yelling Monkeys! ${ex?.message}")
-
     private val monkeys = input.map { it.replace(":", "").split(" ") }
         .associate { it[0] to it.asMonkey() }
-        .toMutableMap()
 
-    override fun solvePart1() = monkeys[ROOT]?.yelled ?: throw MonkeyYell()
+    override fun solvePart1() = monkeys[ROOT]!!.yelled
 
     override fun solvePart2(): Long {
-        // Drop the first because it's HUMAN
         monkeys[ROOT]!!.operator = Operator.Equal
-        monkeys[HUMAN] = listOf(HUMAN).asMonkey()
-
-        return try {
-            monkeys[ROOT]!!.yelled
-        } catch (yelling: MonkeyYell) {
-            yelling.monkeys.stopYelling()
-        }
+        monkeys[HUMAN]!!.yell = null
+        return generateSequence(monkeys[HUMAN]) { m ->
+            if (m.name == ROOT) null else monkeys.entries.first { (_, e) -> e.contains(m.name) }.value
+        }.drop(1).stopYelling()
     }
 
-    private fun List<Monkey>.stopYelling(): Long {
-        var longCompute = mutableListOf<Any?>(HUMAN)
+    private fun Sequence<Monkey>.stopYelling(): Long {
         var humanChain = HUMAN
-
-        drop(1).forEach {
-            val nest = mutableListOf<Any?>()
-            if (it.wait1 == humanChain) {
-                nest.addAll(listOf(longCompute, it.operator, monkeys[it.wait2]?.yelled))
+        return fold(emptyList<Any?>()) { acc, monkey ->
+            if (monkey.wait1 == humanChain) {
+                listOf(acc, monkey.operator, monkeys[monkey.wait2]?.yelled)
             } else {
-                nest.addAll(listOf(monkeys[it.wait1]?.yelled, it.operator, longCompute))
-            }
-            longCompute = nest
-            humanChain = it.name
-        }
-        return longCompute.solve()
+                listOf(monkeys[monkey.wait1]?.yelled, monkey.operator, acc)
+            }.also { humanChain = monkey.name }
+        }.solve()
     }
 
-    @Suppress("TooGenericExceptionCaught")
     private val Monkey.yelled: Long
-        get() = try {
-            yell ?: operator!!.compute(monkeys[wait1]!!.yelled, monkeys[wait2]!!.yelled)
-        } catch (m: MonkeyYell) {
-            throw m.also { it.monkeys.add(this) }
-        } catch (ex: NullPointerException) {
-            throw MonkeyYell(ex).also { it.monkeys.add(this) }
-        }
+        get() = yell ?: operator!!.compute(monkeys[wait1]!!.yelled, monkeys[wait2]!!.yelled)
 
-    @Suppress("UNCHECKED_CAST")
-    private fun MutableList<Any?>.solve(): Long {
+    private fun List<Any?>.solve(): Long {
         // Do some magic to unroll this and return
         var computed = 0L
-        var longCompute = this
-        while (longCompute.none { v -> v == HUMAN }) {
-            val unsolvedIdx = longCompute.indexOfFirst { l -> l as? List<*> != null }
+        var currEq = this
+        while (currEq.isNotEmpty()) {
+            val unsolvedIdx = if (currEq[0] is List<*>) 0 else 2
             val solvedIdx = if (unsolvedIdx == 0) 2 else 0
-            val solved = longCompute[solvedIdx] as Long
-            //println("$computed = ${if (solvedIdx == 2) ("[ME] ${longCompute[1]} $solved") else ("$solved ${longCompute[1]} [ME]")}")
-            computed = (longCompute[1] as Operator).solve(computed, solved, solvedIdx)
-            longCompute = longCompute[unsolvedIdx] as MutableList<Any?>
+            val solved = currEq[solvedIdx] as Long
+            println("$computed = ${if (solvedIdx == 2) ("[ME] ${currEq[1]} $solved") else ("$solved ${currEq[1]} [ME]")}")
+            computed = (currEq[1] as Operator).solve(computed, solved, solvedIdx)
+            currEq = currEq[unsolvedIdx] as List<Any?>
         }
         return computed
     }
