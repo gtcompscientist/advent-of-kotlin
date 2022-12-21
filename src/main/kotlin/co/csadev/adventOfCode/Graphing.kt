@@ -26,7 +26,7 @@ data class Point2D(val x: Int, val y: Int) : Point, Comparable<Point2D> {
     /**
      * Cardinal direction neighbors only
      */
-    val adjacent: List<Point2D> by lazy {
+    override val adjacent: List<Point2D> by lazy {
         listOf(copy(x = x + 1), copy(x = x - 1), copy(y = y + 1), copy(y = y - 1))
     }
 
@@ -44,13 +44,7 @@ data class Point2D(val x: Int, val y: Int) : Point, Comparable<Point2D> {
     /**
      * All eight neighbors, plus itself of a given [Point2D]
      */
-    val neighborsInc: List<Point2D> by lazy {
-        (x - 1..x + 1).flatMap { dx ->
-            (y - 1..y + 1).mapNotNull { dy ->
-                Point2D(dx, dy)
-            }
-        }
-    }
+    val neighborsInc: List<Point2D> by lazy { neighbors + this }
 
     /**
      * Outputs an image of this pixel with the given color for visualizations
@@ -78,6 +72,7 @@ fun List<Point2D>.printGraph(activeChar: Char = '#', inactiveChar: Char = ' ') =
 
 interface Point {
     val neighbors: List<Point>
+    val adjacent: List<Point>
 }
 
 data class Point3D(val x: Int, val y: Int, val z: Int) : Point {
@@ -91,7 +86,7 @@ data class Point3D(val x: Int, val y: Int, val z: Int) : Point {
         }
     }
 
-    val immediateNeighbors: List<Point3D> by lazy {
+    override val adjacent: List<Point3D> by lazy {
         listOf(
             copy(x = x - 1),
             copy(x = x + 1),
@@ -102,16 +97,7 @@ data class Point3D(val x: Int, val y: Int, val z: Int) : Point {
         )
     }
 
-    val neighborsSequence: Sequence<Point3D> by lazy {
-        sequenceOf(
-            copy(x = x - 1),
-            copy(x = x + 1),
-            copy(y = y - 1),
-            copy(y = y + 1),
-            copy(z = z - 1),
-            copy(z = z + 1)
-        )
-    }
+    val adjSequence: Sequence<Point3D> by lazy { adjacent.asSequence() }
 
     val hexNeighbors: List<Point3D> by lazy {
         HEX_OFFSETS.map { this + it.value }
@@ -149,5 +135,17 @@ data class Point4D(val x: Int, val y: Int, val z: Int, val w: Int) : Point {
                 }
             }
         }
+    }
+    override val adjacent: List<Point> by lazy {
+        listOf(
+            copy(x = x - 1),
+            copy(x = x + 1),
+            copy(y = y - 1),
+            copy(y = y + 1),
+            copy(z = z - 1),
+            copy(z = z + 1),
+            copy(w = w - 1),
+            copy(w = w + 1)
+        )
     }
 }

@@ -19,7 +19,7 @@ class Day18(override val input: List<String> = resourceAsList("22day18.txt")) :
 
     override fun solvePart1(): Int {
         val totalSides = lava.size * 6
-        val touching = lava.sumOf { it.immediateNeighbors.count { n -> n in lava } }
+        val touching = lava.sumOf { it.adjacent.count { n -> n in lava } }
         return totalSides - touching
     }
 
@@ -35,7 +35,7 @@ class Day18(override val input: List<String> = resourceAsList("22day18.txt")) :
             added = 0
             map.filter { it.value }
                 .forEach { (p, _) ->
-                    p.immediateNeighbors.filter { it.x in searchRange }
+                    p.adjacent.filter { it.x in searchRange }
                         .filter { it.y in searchRange }
                         .filter { it.z in searchRange }
                         .filter { map.getOrDefault(it, 0) == 0 }
@@ -47,7 +47,7 @@ class Day18(override val input: List<String> = resourceAsList("22day18.txt")) :
         }
 
         return map.filter { !it.value }
-            .flatMap { it.key.immediateNeighbors }
+            .flatMap { it.key.adjacent }
             .count { map.getOrDefault(it, false) }
     }
 }
