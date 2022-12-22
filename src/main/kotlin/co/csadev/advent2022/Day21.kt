@@ -45,7 +45,7 @@ class Day21(override val input: List<String> = resourceAsList("22day21.txt")) :
         monkeys[ROOT]!!.operator = Operator.Equal
         monkeys[HUMAN]!!.yell = null
         return generateSequence(monkeys[HUMAN]) { m ->
-            if (m.name == ROOT) null else monkeys.entries.first { (_, e) -> e.contains(m.name) }.value
+            monkeys.entries.firstOrNull { (_, e) -> e.contains(m.name) }?.value
         }.drop(1).stopYelling()
     }
 
