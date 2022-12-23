@@ -23,7 +23,12 @@ class Day03(override val input: String = "") :
             .map { (_, c) -> c }
             .filter { it.citystatezip == "South Ozone Park, NY 11420" }
             .toSet()
-        return dogCustomers.first().phone
+        return dogCustomers.first().run {
+            orders.filter { it.customerid == customerid }.forEach { o ->
+                println(o)
+            }
+            phone
+        }
     }
 
     override fun solvePart2() = 0

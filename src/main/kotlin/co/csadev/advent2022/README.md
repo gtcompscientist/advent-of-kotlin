@@ -22,8 +22,8 @@
 | 18  | --- Day 18: Boiling Boulders ---         | [\[Solution\]](./Day18.kt) [\[AoC\]](http://adventofcode.com/2022/day/18) |
 | 19  | --- Day 19: Not Enough Minerals ---      | [\[Solution\]](./Day19.kt) [\[AoC\]](http://adventofcode.com/2022/day/19) |
 | 20  | --- Day 20: Grove Positioning System --- | [\[Solution\]](./Day20.kt) [\[AoC\]](http://adventofcode.com/2022/day/20) |
-| 21  | TBD                                      | [\[Solution\]](./Day21.kt) [\[AoC\]](http://adventofcode.com/2022/day/21) |
-| 22  | TBD                                      | [\[Solution\]](./Day22.kt) [\[AoC\]](http://adventofcode.com/2022/day/22) |
-| 23  | TBD                                      | [\[Solution\]](./Day23.kt) [\[AoC\]](http://adventofcode.com/2022/day/23) |
+| 21  | --- Day 21: Monkey Math ---              | [\[Solution\]](./Day21.kt) [\[AoC\]](http://adventofcode.com/2022/day/21) |
+| 22  | --- Day 22: Monkey Map ---               | [\[Solution\]](./Day22.kt) [\[AoC\]](http://adventofcode.com/2022/day/22) |
+| 23  | --- Day 23: Unstable Diffusion ---       | [\[Solution\]](./Day23.kt) [\[AoC\]](http://adventofcode.com/2022/day/23) |
 | 24  | TBD                                      | [\[Solution\]](./Day24.kt) [\[AoC\]](http://adventofcode.com/2022/day/24) |
 | 25  | TBD                                      | [\[Solution\]](./Day25.kt) [\[AoC\]](http://adventofcode.com/2022/day/25) |

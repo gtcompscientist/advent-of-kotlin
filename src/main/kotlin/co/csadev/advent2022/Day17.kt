@@ -42,7 +42,7 @@ class Day17(override val input: List<String> = resourceAsList("22day17.txt")) :
             }.toTypedArray()
         }.toTypedArray()
 
-    enum class Jet {
+    private enum class Jet {
         LEFT, RIGHT
     }
 

@@ -53,6 +53,7 @@ data class Point2D(val x: Int, val y: Int) : Point, Comparable<Point2D> {
 
     companion object {
         val ORIGIN = Point2D(0, 0)
+        val DIRECTIONS = arrayOf(Point2D(1, 0), Point2D(0, 1), Point2D(-1, 0), Point2D(0, -1))
     }
 
     override fun compareTo(other: Point2D): Int = when {
@@ -61,6 +62,9 @@ data class Point2D(val x: Int, val y: Int) : Point, Comparable<Point2D> {
         y == other.y && x > other.x -> 1
         else -> -1
     }
+
+    fun mod(maxWidth: Int, maxHeight: Int) = Point2D(x.mod(maxWidth), y.mod(maxHeight))
+    fun add(xOff: Int = 0, yOff: Int = 0) = copy(x = x + xOff, y = y + yOff)
 }
 
 fun List<Point2D>.printGraph(activeChar: Char = '#', inactiveChar: Char = ' ') =
