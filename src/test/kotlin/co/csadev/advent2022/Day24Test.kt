@@ -10,26 +10,31 @@ import org.junit.jupiter.api.Test
 class Day24Test {
 
     private val input = """
+        #.######
+        #>>.<^<#
+        #.<..<<#
+        #>v.><>#
+        #<^v^^>#
+        ######.#
     """.trimIndent().lines()
-
-    private val example = Day24(input)
-    private val real = Day24()
 
     @Test
     fun `Matches example`() {
+        val example = Day24(input)
         val part1 = example.solvePart1()
-        Assertions.assertThat(part1).isEqualTo(0)
+        Assertions.assertThat(part1).isEqualTo(18)
 
         val part2 = example.solvePart2()
-        Assertions.assertThat(part2).isEqualTo(0)
+        Assertions.assertThat(part2).isEqualTo(54)
     }
 
     @Test
     fun `Actual answer`() {
+        val real = Day24()
         val part1 = real.solvePart1()
-        Assertions.assertThat(part1).isEqualTo(0)
+        Assertions.assertThat(part1).isEqualTo(297)
 
         val part2 = real.solvePart2()
-        Assertions.assertThat(part2).isEqualTo(0)
+        Assertions.assertThat(part2).isEqualTo(856)
     }
 }

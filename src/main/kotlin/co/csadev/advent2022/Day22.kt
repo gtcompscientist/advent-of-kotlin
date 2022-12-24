@@ -9,6 +9,7 @@ import co.csadev.adventOfCode.BaseDay
 import co.csadev.adventOfCode.Point2D
 import co.csadev.adventOfCode.Resources.resourceAsList
 
+@Suppress("CyclomaticComplexMethod") // HAVE YOU SEEN THOSE MOVES?
 class Day22(override val input: List<String> = resourceAsList("22day22.txt")) :
     BaseDay<List<String>, Int, Int> {
 
@@ -50,8 +51,10 @@ class Day22(override val input: List<String> = resourceAsList("22day22.txt")) :
         }
     }
 
-    private fun Side.turn(xOff: Int = 0, yOff: Int = 0) = Point2D(sideMapping[ordinal].first.first() + xOff, sideMapping[ordinal].second.first() + yOff)
+    private fun Side.turn(xOff: Int = 0, yOff: Int = 0) =
+        Point2D(sideMapping[ordinal].first.first() + xOff, sideMapping[ordinal].second.first() + yOff)
 
+    @Suppress("unused")
     private fun Point2D.printLocation(dir: Dir) {
         board.forEachIndexed { bY, chars ->
             if (y == bY) chars[x] = dir.char
@@ -75,6 +78,7 @@ class Day22(override val input: List<String> = resourceAsList("22day22.txt")) :
         var currPos = start
         var currDir = Dir.RIGHT
         steps.forEachIndexed { idx, move ->
+            @Suppress("unused")
             for (i in 0 until move) {
 //                currPos.printLocation()
                 var testPos = currPos + currDir.p
@@ -113,7 +117,6 @@ class Day22(override val input: List<String> = resourceAsList("22day22.txt")) :
     private fun Point2D.cubeMove(currDir: Dir): Pair<Point2D, Dir> {
         val currSide = side
         return when {
-            //
             currSide == Side.A && currDir == Dir.UP -> Side.F.turn(yOff = x - sideSize) to Dir.RIGHT
             currSide == Side.A && currDir == Dir.LEFT -> Side.E.turn(yOff = sideSize - y - 1) to Dir.RIGHT
             currSide == Side.B && currDir == Dir.UP -> Side.F.turn(x - (sideSize * 2), sideSize - 1) to Dir.UP
@@ -128,7 +131,7 @@ class Day22(override val input: List<String> = resourceAsList("22day22.txt")) :
             currSide == Side.F && currDir == Dir.RIGHT -> Side.D.turn(y - 3 * sideSize, sideSize - 1) to Dir.UP
             currSide == Side.F && currDir == Dir.LEFT -> Side.A.turn(y - 3 * sideSize) to Dir.DOWN
             currSide == Side.F && currDir == Dir.DOWN -> Side.B.turn(x) to Dir.DOWN
-            else -> throw NumberFormatException("Unknown position direction combination: $currSide, $currDir")  // ERROR
+            else -> throw NumberFormatException("Unknown position direction combination: $currSide, $currDir")
         }
     }
 
