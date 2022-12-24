@@ -25,5 +25,5 @@
 | 21  | --- Day 21: Monkey Math ---              | [\[Solution\]](./Day21.kt) [\[AoC\]](http://adventofcode.com/2022/day/21) |
 | 22  | --- Day 22: Monkey Map ---               | [\[Solution\]](./Day22.kt) [\[AoC\]](http://adventofcode.com/2022/day/22) |
 | 23  | --- Day 23: Unstable Diffusion ---       | [\[Solution\]](./Day23.kt) [\[AoC\]](http://adventofcode.com/2022/day/23) |
-| 24  | TBD                                      | [\[Solution\]](./Day24.kt) [\[AoC\]](http://adventofcode.com/2022/day/24) |
+| 24  | --- Day 24: Blizzard Basin ---           | [\[Solution\]](./Day24.kt) [\[AoC\]](http://adventofcode.com/2022/day/24) |
 | 25  | TBD                                      | [\[Solution\]](./Day25.kt) [\[AoC\]](http://adventofcode.com/2022/day/25) |
