@@ -69,7 +69,8 @@ class Day24(override val input: List<String> = resourceAsList("22day24.txt")) :
         return Int.MIN_VALUE
     }
 
-    override fun solvePart1() = findPath()
+    private var firstSearchTime: Int? = null
+    override fun solvePart1() = findPath().also { firstSearchTime = it }
 
-    override fun solvePart2() = findPath(findPath(findPath(), endX, height - 2, 0))
+    override fun solvePart2() = findPath(findPath(firstSearchTime ?: findPath(), endX, height - 2, 0))
 }
