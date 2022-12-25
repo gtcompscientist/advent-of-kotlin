@@ -12,9 +12,12 @@ import co.csadev.adventOfCode.pow
 class Day25(override val input: List<String> = resourceAsList("22day25.txt")) :
     BaseDay<List<String>, String, Int> {
 
-    val values = input.map {
-        it.foldRightIndexed(0L) { idx, c, acc ->
-            acc + (5L.pow(it.length - idx - 1) * (c.digitToIntOrNull() ?: if (c == '-') -1 else -2))
+    private val snafuStr = mapOf(0L to "0", 1L to "1", 2L to "2", 3L to "=", 4L to "-")
+    private val snafuAdj = mapOf(0L to 0, 1L to -1, 2L to -2, 3L to 2, 4L to 1)
+
+    private val values = input.map {
+        it.reversed().foldRightIndexed(0L) { idx, c, acc ->
+            acc + (5L.pow(idx) * (c.digitToIntOrNull() ?: if (c == '-') -1 else -2))
         }
     }
 
@@ -22,16 +25,9 @@ class Day25(override val input: List<String> = resourceAsList("22day25.txt")) :
         var ret = this
         val snafu = mutableListOf<String>()
         while (ret != 0L) {
-            when (ret % 5) {
-                0L -> snafu.add("0")
-                1L -> snafu.add("1").also { ret -= 1 }
-                2L -> snafu.add("2").also { ret -= 2 }
-                3L -> snafu.add("=").also { ret += 2 }
-                4L -> snafu.add("-").also { ret += 1 }
-            }
+            (ret % 5).apply { snafu.add(snafuStr[this]!!.also { ret += snafuAdj[this]!! }) }
             ret /= 5
         }
-
         return snafu.reversed().joinToString("")
     }
 
