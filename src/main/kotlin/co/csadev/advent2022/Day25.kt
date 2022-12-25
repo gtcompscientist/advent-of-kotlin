@@ -7,20 +7,14 @@ package co.csadev.advent2022
 
 import co.csadev.adventOfCode.BaseDay
 import co.csadev.adventOfCode.Resources.resourceAsList
+import co.csadev.adventOfCode.pow
 
 class Day25(override val input: List<String> = resourceAsList("22day25.txt")) :
     BaseDay<List<String>, String, Int> {
 
     val values = input.map {
-        var fivers = 1L
-        it.foldRight(0L) { c, acc ->
-            fivers *= 5
-            val cVal = when (c) {
-                '-' -> -1
-                '=' -> -2
-                else -> c.digitToInt()
-            }
-            acc + (fivers / 5L * cVal)
+        it.foldRightIndexed(0L) { idx, c, acc ->
+            acc + (5L.pow(it.length - idx - 1) * (c.digitToIntOrNull() ?: if (c == '-') -1 else -2))
         }
     }
 
